@@ -13,19 +13,27 @@
     <img src="logo.png" alt="Hallerschipper Logo" class="logo">
     <div>
       <h1>Hallerschipper</h1>
-      <p class="subtitle">Liederbuch für den Shantychor</p>
+      <p class="subtitle">Alle Lieder aus der ZIP-Datei</p>
     </div>
   </header>
 
   <main class="wrap">
     <section id="listView" class="card">
-      <input type="text" id="search" placeholder="Lied oder Nummer suchen..." aria-label="Lied oder Nummer suchen">
-      <div class="meta"><span id="count"></span></div>
+      <input type="text" id="search" placeholder="Lied, Nummer oder Text suchen..." aria-label="Suche">
+      <div class="filters">
+        <select id="categoryFilter" aria-label="Kategorie wählen">
+          <option value="Alle">Alle Kategorien</option>
+        </select>
+      </div>
+      <div class="meta">
+        <span id="count"></span>
+      </div>
       <ul id="songList" class="song-list"></ul>
     </section>
 
     <section id="detailView" class="card hidden">
       <button id="backBtn" class="back-btn">← Zurück zur Liste</button>
+      <div id="songCategory" class="badge"></div>
       <h2 id="songTitle"></h2>
       <pre id="songText" class="lyrics"></pre>
     </section>
