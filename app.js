@@ -9,14 +9,18 @@ const backBtn = document.getElementById('backBtn');
 
 function renderList(query=''){
   const q = query.trim().toLowerCase();
-  const filtered = SONGS.filter(song => song.title.toLowerCase().includes(q) || song.text.toLowerCase().includes(q));
+  const filtered = SONGS.filter(song =>
+    (song.title || '').toLowerCase().includes(q) ||
+    (song.text || '').toLowerCase().includes(q) ||
+    (song.nr || '').toLowerCase().includes(q)
+  );
   count.textContent = filtered.length + ' Lieder';
   songList.innerHTML = '';
-  filtered.forEach((song, index) => {
+  filtered.forEach((song) => {
     const li = document.createElement('li');
     const btn = document.createElement('button');
     btn.className = 'song-btn';
-    btn.textContent = song.title;
+    btn.textContent = (song.nr ? song.nr + ' - ' : '') + song.title;
     btn.addEventListener('click', () => openSong(song));
     li.appendChild(btn);
     songList.appendChild(li);
@@ -24,7 +28,7 @@ function renderList(query=''){
 }
 
 function openSong(song){
-  songTitle.textContent = song.title;
+  songTitle.textContent = (song.nr ? song.nr + ' - ' : '') + song.title;
   songText.textContent = song.text || 'Kein Text gefunden.';
   listView.classList.add('hidden');
   detailView.classList.remove('hidden');
@@ -38,5 +42,4 @@ function closeSong(){
 
 searchInput.addEventListener('input', (e) => renderList(e.target.value));
 backBtn.addEventListener('click', closeSong);
-
 renderList();
