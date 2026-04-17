@@ -1,33 +1,40 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Hallerschipper</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hallerschipper</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h1>Hallerschipper Lieder</h1>
-<input id="search" placeholder="Suche...">
-<ul id="list"></ul>
 
-<script src="songs.js"></script>
-<script>
-const list = document.getElementById("list");
-const search = document.getElementById("search");
+  <header>
+    <img src="logo.png" alt="Hallerschipper Logo" style="max-width: 220px; width: 100%; display: block; margin: 0 auto 20px auto;">
+    <h1>Hallerschipper Lieder</h1>
+  </header>
 
-function render(q=""){
-  list.innerHTML="";
-  SONGS.filter(s=>s.title.toLowerCase().includes(q.toLowerCase()) || s.nr.includes(q))
-  .forEach(s=>{
-    const li=document.createElement("li");
-    li.textContent="Nr. "+s.nr+" - "+s.title;
-    list.appendChild(li);
-  });
-}
+  <main>
+    <section id="listView">
+      <input id="search" type="text" placeholder="Suche nach Nummer, Titel oder Text...">
 
-search.oninput=e=>render(e.target.value);
-render();
-</script>
+      <select id="categoryFilter">
+        <option value="Alle">Alle Kategorien</option>
+      </select>
+
+      <p id="count"></p>
+
+      <ul id="songList"></ul>
+    </section>
+
+    <section id="detailView" class="hidden">
+      <button id="backBtn" type="button">← Zurück</button>
+      <p id="songCategory"></p>
+      <h2 id="songTitle"></h2>
+      <pre id="songText"></pre>
+    </section>
+  </main>
+
+  <script src="songs.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
