@@ -10,19 +10,20 @@ const songCategory = document.getElementById('songCategory');
 const backBtn = document.getElementById('backBtn');
 
 function fillCategories(){
-  const cats = ['Alle', ...new Set(SONGS.map(s => s.category).filter(Boolean))];
+  categoryFilter.innerHTML = '<option value="Alle">Alle Kategorien</option>';
+  const cats = [...new Set((SONGS || []).map(s => s.category).filter(Boolean))].sort();
   cats.forEach(cat => {
     const option = document.createElement('option');
     option.value = cat;
-    option.textContent = cat === 'Alle' ? 'Alle Kategorien' : cat;
+    option.textContent = cat;
     categoryFilter.appendChild(option);
   });
 }
 
 function renderList(){
-  const q = searchInput.value.trim().toLowerCase();
-  const selectedCategory = categoryFilter.value;
-  const filtered = SONGS.filter(song => {
+  const q = (searchInput.value || '').trim().toLowerCase();
+  const selectedCategory = categoryFilter.value || 'Alle';
+  const filtered = (SONGS || []).filter(song => {
     const matchesText =
       (song.title || '').toLowerCase().includes(q) ||
       (song.text || '').toLowerCase().includes(q) ||
@@ -33,12 +34,13 @@ function renderList(){
 
   count.textContent = filtered.length + ' Lieder';
   songList.innerHTML = '';
+
   filtered.forEach(song => {
     const li = document.createElement('li');
     const btn = document.createElement('button');
     btn.className = 'song-btn';
     const label = song.nr ? ('Nr. ' + song.nr + ' – ' + song.title) : song.title;
-    btn.innerHTML = label + '<span class="song-sub">' + song.category + '</span>';
+    btn.innerHTML = label + '<span class="song-sub">' + (song.category || '') + '</span>';
     btn.addEventListener('click', () => openSong(song));
     li.appendChild(btn);
     songList.appendChild(li);
